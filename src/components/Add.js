@@ -8,7 +8,6 @@ class Add extends React.Component{
     // this.props.nameFn(this.state.inputText);
     this.state={
       inputText:"",
-      
     }
     this.onChangeInput=this.onChangeInput.bind(this);
   }
@@ -17,27 +16,36 @@ class Add extends React.Component{
       inputText
     });
   }
+
   render(){
     return(
-      <div className=" box">
+      <div className=" box col-12">
         <h5>Non du produit:</h5>
-        <Input 
-          inputText={this.state.inputText} 
-          onChange={this.onChangeInput}
-        />
-        <button onClick={()=>{
-          this.props.inputName(this.state.inputText,this.props.produit);
-          this.props.itemProduit(this.state.inputText,this.props.produit)
-        }}>
-          valide
-        </button>
-        <h5>prix:</h5>
-        <p>{this.props.produit} EURO</p>
+        <div className="input-group mb-3">
+          <Input 
+            inputText={this.state.inputText} 
+            onChange={this.onChangeInput}
+          />
+          <div className="input-group-append">
+            <Button onClick={()=>{this.props.itemProduits(
+                                  this.state.inputText,
+                                  this.props.prix,
+                                  this.props.count)}}>
+              Add
+            </Button>
+          </div>
+        </div>
+
+        <h5>Prix:</h5>
+
+        <p>{this.props.prix}  €</p>
+
         <RCSlider
-          min={this.props.MIN_PRODUIT}
-          max={this.props.MAX_PRODUIT}
-          value={this.props.produit}
+          min={this.props.MIN_PRIX}
+          max={this.props.MAX_PRIX}
+          value={this.props.prix}
           onChange={this.props.onChangeFn}
+
         />
 
 

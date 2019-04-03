@@ -3,93 +3,150 @@ import Add from "./components/Add"
 import Button from "./components/core/Button"
 import List from "./components/List"
 import Pay from "./components/Pay"
-const MIN_PRODUIT=1;
-const MAX_PRODUIT=10;
+import Save from "./components/Save"
+const MIN_PRIX=1;
+const MAX_PRIX=10;
+
 class App extends React.Component{
   constructor(props){
     super(props);
-    this.onChangeTab=this.onChangeTab.bind(this);
-    this.inputName=this.inputName.bind(this)
-    this.onChangeProduit=this.onChangeProduit.bind(this)
-    this.itemProduit=this.itemProduit.bind(this)
+    this.onChangeTabAdd=this.onChangeTabAdd.bind(this);
+    this.onChangeTabList=this.onChangeTabList.bind(this);
+    this.onChangeTabPay=this.onChangeTabPay.bind(this);
+    this.onChangeTabSave=this.onChangeTabSave.bind(this);
+    this.onChangeProduit=this.onChangeProduit.bind(this);
+    this.onChangeCount=this.onChangeCount.bind(this);
+    this.itemProduits=this.itemProduits.bind(this);
+    
     this.state={
-      produit:1,
-      name:"",
+      prix:1,
       Produits:[],
-      activeTab:"add"
+      activeTab:"add",
+      count:1
     }
   }
-  onChangeTab(value){
-    this.setState({
-      activeTab:value
+
+  onChangeTabAdd(tabName){
+  this.setState({
+
+      activeTab:tabName
     })
-      
-    }
+  }
+  onChangeTabList(tabName){
+ 
+  this.setState({
+
+      activeTab:tabName 
+    })
+  }
+  onChangeTabPay(tabName){
   
-  onChangeProduit(value){
+  this.setState({
+
+      activeTab:tabName 
+    })
+  }
+  onChangeTabSave(tabName){
+  console.log(">> onChangeTabSave")
+    this.setState({
+      
+        activeTab:tabName 
+      })
+      console.log("Save",tabName)
+      console.log("<< onChangeTabSave")
+    }
+  onChangeCount(count){
+    this.setState({
+      count:count
+    });
+    console.log(count)
+  }
+
+  onChangeProduit(prix){
    
     this.setState({
-      produit:value,
-    })
+      prix,
+    });
   }
-  inputName(data,prix){
-    this.setState({
-      name:data+" : "+prix+" euro"
-    })
-  }
-  itemProduit(produit,prix){
+  itemProduits(name,price,count){
+   count=1
     let item=this.state.Produits;
-    if(item.length===0){
-      item=[produit+" : "+prix+" euro"]
-    }
-    else{
-      item.push(produit+" : "+prix+" euro")
-    } 
+    let objproduit={name,price,count}
+    item.push(objproduit)
     this.setState({
+      
       Produits:item
     })
     console.log(item)
   }
+  
   renderList(){
     return(
-      <ul>
-      {this.state.Produits.map((produit)=><li>{produit}</li>)}
-    </ul>
-    );
-  }
+    <div className="col-12 ">
+    <h2>Bakery</h2>       
+    <Button  isSlected={this.state.activeTab === 'add'} 
+              onClick={()=>{ this.onChangeTabAdd('add')}}>
+      Add
+    </Button>
+    <Button  isSlected={this.state.activeTab === 'list'} 
+              onClick={()=>{this.onChangeTabList('list');}}>
+     List
+    </Button>
+    <Button isSlected={this.state.activeTab === 'pay'} 
+            onClick={()=>{this.onChangeTabPay('pay'); }}>
+     Pay
+    </Button>
+  </div>)
+}
+
   render(){
+
     return(
       <div className="container-fluid">
+        
+{/* *********** */}
         <div className="row">
-          <div className="col-12 ">
-            <h2>Bakery</h2>
-            <Button onClick={this.onChangeTab} isSlected="true">Add</Button>
-            <Button>List</Button>
-            <Button>Pay</Button>
-          </div>
-         
-           <Add 
-            itemProduit={this.itemProduit}
-            inputName={this.inputName}
-            produit={this.state.produit}
-            onChangeFn={this.onChangeProduit}
-            MAX_PRODUIT={MAX_PRODUIT}
-            MIN_PRODUIT={MIN_PRODUIT}
-          />
-         
-         <div className="col-12 ">
-           <List/>
-         </div >
-         <div className="col-12 ">
-           <Pay />
-         </div>
-
-
-          {/* <h4>{this.state.name}</h4> */}
-          <div className="col-12">
-             {this.renderList()}
-          </div>
+          { this.renderList()}
         </div>
+{/* ********************* */}
+        <div className="row">
+          {this.state.activeTab === "add" && 
+            <Add 
+              itemProduits={this.itemProduits}
+              prix={this.state.prix}
+              count={this.state.count}
+              onChangeCount={this.onChangeCount}
+              onChangeFn={this.onChangeProduit}
+              MAX_PRIX={MAX_PRIX}
+              MIN_PRIX={MIN_PRIX}
+            /> 
+          }
+        </div>
+{/* ********************** */}
+        <div className="row">
+            {this.state.activeTab === "list" && 
+              <List produits={this.state.Produits}/>
+            }
+        </div>
+
+{/* ******************* */}
+
+        <div className="row">
+            {this.state.activeTab === "pay" && 
+              <Pay  
+                count={this.state.count}
+                produits={this.state.Produits}
+                onChangeCount={this.onChangeCount}
+                onChangeTabSave={this.onChangeTabSave}
+                activeTab={this.state.activeTab} 
+              />}
+        </div>
+        <div className="row">
+      {this.state.activeTab==='save'&&
+         <Save/> 
+    
+      }
+      </div>
    
       </div>
       
@@ -99,4 +156,5 @@ class App extends React.Component{
   }
 
 }
-export default App
+export default App 
+
