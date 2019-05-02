@@ -33,37 +33,31 @@ class App extends React.Component{
     })
   }
   onChangeTabList(tabName){
- 
   this.setState({
-
       activeTab:tabName 
-    })
+    });
   }
   onChangeTabPay(tabName){
-  
   this.setState({
-
       activeTab:tabName 
-    })
+    });
   }
   onChangeTabSave(tabName){
-  console.log(">> onChangeTabSave")
+  // console.log(">> onChangeTabSave")
     this.setState({
-      
         activeTab:tabName 
-      })
-      console.log("Save",tabName)
-      console.log("<< onChangeTabSave")
+      });
+      // console.log("Save",tabName)
+      // console.log("<< onChangeTabSave")
     }
   onChangeCount(count){
     this.setState({
       count:count
     });
-    console.log(count)
+    // console.log(count)
   }
 
   onChangeProduit(prix){
-   
     this.setState({
       prix,
     });
@@ -132,29 +126,26 @@ class App extends React.Component{
 {/* ******************* */}
 
         <div className="row">
-            {this.state.activeTab === "pay" && 
-              <Pay  
-                count={this.state.count}
-                produits={this.state.Produits}
-                onChangeCount={this.onChangeCount}
-                onChangeTabSave={this.onChangeTabSave}
-                activeTab={this.state.activeTab} 
-              />}
+          {this.state.activeTab === "pay" && 
+            <Pay  
+              count={this.state.count}
+              produits={this.state.Produits}
+              onChangeCount={this.onChangeCount}
+              onChangeTabSave={this.onChangeTabSave}
+              activeTab={this.state.activeTab} 
+            />
+          }
         </div>
         <div className="row">
-      {this.state.activeTab==='save'&&
-         <Save/> 
-    
-      }
+          {this.state.activeTab==='save'&&
+            <Save/> 
+        
+          }
+        </div>
       </div>
-   
-      </div>
-      
-
-      
+       
     );
   }
-
 }
 export default App 
 
